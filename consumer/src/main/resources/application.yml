@@ -1,0 +1,19 @@
+server:
+  port: 8080
+  shutdown: graceful
+
+spring:
+  kafka:
+    bootstrap-servers: my-cluster-kafka-bootstrap:9092
+    consumer:
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.lemberski.demo.kafka"
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
