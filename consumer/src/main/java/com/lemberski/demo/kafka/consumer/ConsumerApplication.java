@@ -14,7 +14,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 public class ConsumerApplication {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConsumerApplication.class);
-
     private static final String KAFKA_TOPIC = "notification";
     private static final String KAFKA_GROUP_ID = "demo";
 
