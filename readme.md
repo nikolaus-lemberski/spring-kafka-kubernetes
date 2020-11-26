@@ -12,11 +12,21 @@ Kafka consumer, logs messages.
 
 # Getting started
 
+Setup kafka namespace with `kubectl apply -f kubernetes/namespace.yml`
+
 Setup Kafka, for example with Strimzi on Minikube:
 
 https://strimzi.io/quickstarts/
 
-Wait until Kafka is healthy: `watch kubectl get pods -n kafka`
+```
+minikube start --memory=4096
+kubectl apply -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka
+kubectl apply -f https://strimzi.io/examples/latest/kafka/kafka-persistent-single.yaml -n kafka 
+```
+
+Wait until Kafka is healthy: 
+
+`kubectl wait kafka/my-cluster --for=condition=Ready --timeout=300s -n kafka`
 
 Build images and push to docker
 ```
@@ -28,8 +38,8 @@ docker build -t <your-docker-name>/producer producer
 docker push <your-docker-name>/consumer:latest
 docker push <your-docker-name>/producer:latest
 
-kubectl apply -f consumer/deploy.yml -n kafka
-kubectl apply -f producer/deploy.yml -n kafka
+kubectl apply -f kubernetes/consumer.yml
+kubectl apply -f kubernetes/producer.yml
 ```
 
 Get the service address of producer from minikube: 

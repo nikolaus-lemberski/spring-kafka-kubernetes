@@ -1,37 +1,23 @@
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: producer
-  name: producer
-spec:
-  ports:
-    - port: 80
-      protocol: TCP
-      targetPort: 8080
-  selector:
-    app: producer
-  type: LoadBalancer
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: producer
-  name: producer
+    app: consumer
+  name: consumer
+  namespace: kafka
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: producer
+      app: consumer
   template:
     metadata:
       labels:
-        app: producer
+        app: consumer
     spec:
       containers:
-        - image: docker.io/lemberski/producer:latest
-          name: producer
+        - image: docker.io/lemberski/consumer:latest
+          name: consumer
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
